@@ -25,14 +25,10 @@ import foo from './new/path/to/bar';
 
 ### import-specifier-transform
 
-```js
-> jscodeshift -t import-specifier-transform fileA fileB --prevExportName=foo --nextExportName=fooPrime
-```
-
 Rename the imported variable. Used for file exports refactoring.
 
 ```js
-
+> jscodeshift -t import-specifier-transform fileA fileB --prevExportName=foo --nextExportName=fooPrime
 ```
 
 Example:
