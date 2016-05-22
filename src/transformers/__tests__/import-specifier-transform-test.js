@@ -1,10 +1,13 @@
 import {defineTest} from 'jscodeshift/dist/testUtils';
 
-const printOptions = {
-  trailingComma: true,
+const options = {
+  prevExportName: 'SUCCESS',
+  nextExportName: 'AWESOME',
+  printOptions: {
+    trailingComma: true,
+    quote: 'single',
+  },
+  'inline-single-expressions': true,
 };
 
-defineTest(__dirname, 'import-specifier-transform', {
-  'inline-single-expressions': true,
-  printOptions,
-});
+defineTest(__dirname, 'import-specifier-transform', options);

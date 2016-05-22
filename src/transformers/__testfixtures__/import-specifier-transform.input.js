@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {ERROR, SUCCESS as ME} from '../../constants';
-const INFO = require('../../constants').INFO;
+const INFO = require('../../constants');
 
 class FeedBack extends React.Component {
 

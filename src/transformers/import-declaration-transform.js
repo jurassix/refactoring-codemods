@@ -17,7 +17,11 @@ import {
 export default function importDeclarationTransform(
   {source}: {source: string},
   {jscodeshift: j}: {jscodeshift: JSCodeshift},
-  {prevFilePath, nextFilePath}: {prevFilePath: string, nextFilePath: string}
+  {
+    prevFilePath,
+    nextFilePath,
+    printOptions = {},
+  }: {prevFilePath: string, nextFilePath: string, printOptions: Object}
 ): ?string {
   const root: AST = j(source);
   const literals: Array<Literal> = [].concat(
@@ -29,5 +33,5 @@ export default function importDeclarationTransform(
     renameLiteral(j, nextFilePath)
   );
 
-  root.toSource();
+  return root.toSource(printOptions);
 }

@@ -18,7 +18,11 @@ import {
 export default function importSpecifierTransform(
   {source}: {source: string},
   {jscodeshift: j}: {jscodeshift: JSCodeshift},
-  {prevExportName, nextExportName}: {prevExportName: string, nextExportName: string}
+  {
+    prevExportName,
+    nextExportName,
+    printOptions = {},
+  }: {prevExportName: string, nextExportName: string, printOptions: Object}
 ): ?string {
   const root: AST = j(source);
   const identifiers: Array<Identifier> = [].concat(
@@ -31,5 +35,5 @@ export default function importSpecifierTransform(
     renameIdentifier(j, nextExportName)
   );
 
-  return root.toSource();
+  return root.toSource(printOptions);
 }

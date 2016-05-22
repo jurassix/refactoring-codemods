@@ -1,8 +1,8 @@
 {
   "name": "divvy",
   "scripts": {
+    "build": "babel src -d lib",
     "flow": "flow",
-    "build": "npm run flow && babel src -d lib",
     "test": "jest"
   },
   "description": "Quest for IDE refactoring support within JavaScript via js-codemods",
