@@ -1,8 +1,8 @@
 // @flow
 
 export {
-  importSpecifierTransform,
+  default as importSpecifierTransform,
 } from './import-specifier-transform';
 export {
-  importDeclarationTransform,
+  default as importDeclarationTransform,
 } from './import-declaration-transform';

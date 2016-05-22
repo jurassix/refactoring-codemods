@@ -14,7 +14,7 @@ import {
   renameLiteral,
 } from '../mutators';
 
-export function importDeclarationTransform(
+export default function importDeclarationTransform(
   {source}: {source: string},
   {jscodeshift: j}: {jscodeshift: JSCodeshift},
   {prevFilePath, nextFilePath}: {prevFilePath: string, nextFilePath: string}

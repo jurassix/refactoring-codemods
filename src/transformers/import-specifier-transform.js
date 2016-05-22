@@ -15,7 +15,7 @@ import {
   renameIdentifier,
 } from '../mutators';
 
-export function importSpecifierTransform(
+export default function importSpecifierTransform(
   {source}: {source: string},
   {jscodeshift: j}: {jscodeshift: JSCodeshift},
   {prevExportName, nextExportName}: {prevExportName: string, nextExportName: string}
