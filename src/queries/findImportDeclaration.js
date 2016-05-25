@@ -8,7 +8,7 @@ import type {
 
 // import {example as no} from './RENAME_THIS';
 
-export const findImportDeclarationLiteral = (
+export const findImportDeclaration = (
   j: JSCodeshift,
   root: AST,
   filePath: string
@@ -17,19 +17,3 @@ export const findImportDeclarationLiteral = (
     .find(j.ImportDeclaration)
     .find(j.Literal, {value: filePath})
     .paths();
-
-export const findImportDeclaration = (
-  j: JSCodeshift,
-  root: AST,
-  filePath: string
-): Array<ImportDeclaration> => {
-  const filter = {
-    source: {
-      type: 'Literal',
-      value: filePath,
-    },
-  };
-  return root
-    .find(j.ImportDeclaration, filter)
-    .paths();
-};
