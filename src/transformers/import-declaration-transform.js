@@ -6,7 +6,7 @@ import type {
 } from '../types';
 
 import {
-  findImportDeclaration,
+  findImportDeclarationLiteral,
   findRequires,
 } from '../queries';
 
@@ -25,7 +25,7 @@ export default function importDeclarationTransform(
 ): ?string {
   const root: AST = j(source);
   const literals: Array<Literal> = [].concat(
-    findImportDeclaration(j, root, prevFilePath),
+    findImportDeclarationLiteral(j, root, prevFilePath),
     findRequires(j, root, prevFilePath)
   );
 

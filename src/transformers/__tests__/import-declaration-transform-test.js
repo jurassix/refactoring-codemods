@@ -1,8 +1,8 @@
 import {defineTest} from 'jscodeshift/dist/testUtils';
 
 const options = {
-  prevFilePath: '../../constants',
-  nextFilePath: '../../nextConstants',
+  prevFilePath: './bar',
+  nextFilePath: './new/path/to/bar',
   printOptions: {
     trailingComma: true,
     quote: 'single',

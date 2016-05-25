@@ -7,6 +7,7 @@ import type {
 
 import {
   findIdentifiers,
+  findImportDeclaration,
   findImportDefaultSpecifier,
   findImportSpecifier,
 } from '../queries';
@@ -21,19 +22,29 @@ export default function importSpecifierTransform(
   {
     prevExportName,
     nextExportName,
+    filePath,
     printOptions = {},
-  }: {prevExportName: string, nextExportName: string, printOptions: Object}
+  }: {
+    prevExportName: string,
+    nextExportName: string,
+    filePath: string,
+    printOptions: Object,
+  }
 ): ?string {
   const root: AST = j(source);
-  const identifiers: Array<Identifier> = [].concat(
-    findImportSpecifier(j, root, prevExportName),
-    findImportDefaultSpecifier(j, root, prevExportName),
-    findIdentifiers(j, root, prevExportName)
-  );
+  const noop: boolean = findImportDeclaration(j, root, filePath).length <= 0;
 
-  identifiers.forEach(
-    renameIdentifier(j, nextExportName)
-  );
+  if (!noop) {
+    const identifiers: Array<Identifier> = [].concat(
+      findImportSpecifier(j, root, prevExportName),
+      findImportDefaultSpecifier(j, root, prevExportName),
+      findIdentifiers(j, root, prevExportName)
+    );
+
+    identifiers.forEach(
+      renameIdentifier(j, nextExportName)
+    );
+  }
 
   return root.toSource(printOptions);
 }
