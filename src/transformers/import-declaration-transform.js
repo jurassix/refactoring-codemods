@@ -40,7 +40,12 @@ export default function importDeclarationTransform(file, api, options) {
     .find(j.Literal)
     .filter(matchesPath);
 
-  [].concat(requires.paths(), imports.paths()).forEach(
+  const nodesToUpdate = [].concat(requires.paths(), imports.paths());
+  
+  const noop = nodesToUpdate.length <= 0;
+  if (noop) return null;
+  
+  nodesToUpdate.forEach(
     renameLiteral(j, relativeNextFilePath)
   );
 
