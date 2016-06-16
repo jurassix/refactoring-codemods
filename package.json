@@ -1,5 +1,5 @@
 {
-  "name": "divvy",
+  "name": "refactoring-codemods",
   "scripts": {
     "build": "babel src -d lib",
     "test": "jest"
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jurassix/divvy.git"
+    "url": "git+https://github.com/jurassix/refactoring-codemods.git"
   },
   "keywords": [
     "js-codemod",
@@ -33,7 +33,7 @@
   "author": "clint ayres (clinton.ayres@gmail.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jurassix/divvy/issues"
+    "url": "https://github.com/jurassix/refactoring-codemods/issues"
   },
-  "homepage": "https://github.com/jurassix/divvy#readme"
+  "homepage": "https://github.com/jurassix/refactoring-codemods#readme"
 }
