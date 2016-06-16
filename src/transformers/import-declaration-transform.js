@@ -1,36 +1,47 @@
-// @flow
-import type {
-  AST,
-  JSCodeshift,
-  Literal,
-} from '../types';
+import {relative, resolve, normalize, sep} from 'path';
 
-import {
-  findImportDeclaration,
-  findRequires,
-} from '../queries';
+const renameLiteral = (j, newName) => (path) => {
+  j(path).replaceWith(() => j.literal(newName));
+};
 
-import {
-  renameLiteral,
-} from '../mutators';
+const filterMatchingPaths = (basedir, filePath) => (path) => {
+  return normalize(resolve(basedir, path.value.value)) === filePath;
+};
 
-export default function importDeclarationTransform(
-  {source}: {source: string},
-  {jscodeshift: j}: {jscodeshift: JSCodeshift},
-  {
-    prevFilePath,
-    nextFilePath,
-    printOptions = {},
-  }: {prevFilePath: string, nextFilePath: string, printOptions: Object}
-): ?string {
-  const root: AST = j(source);
-  const literals: Array<Literal> = [].concat(
-    findImportDeclaration(j, root, prevFilePath),
-    findRequires(j, root, prevFilePath)
-  );
+const ensureDotSlash = (filePath = '') => {
+  if (filePath[0] !== '.') {
+    return `.${sep}${filePath}`;
+  }
+  return filePath;
+};
 
-  literals.forEach(
-    renameLiteral(j, nextFilePath)
+export default function importDeclarationTransform(file, api, options) {
+  const {path: filePath, source} = file;
+  const {jscodeshift: j} = api;
+  const {prevFilePath, nextFilePath, printOptions = {}} = options;
+
+  const root = j(source);
+  const basedir = normalize(resolve(filePath, '../'));
+  const matchesPath = filterMatchingPaths(basedir, normalize(prevFilePath));
+  const relativeNextFilePath = ensureDotSlash(relative(basedir, nextFilePath));
+
+  if (relativeNextFilePath === '') return null;
+
+  const requires = root
+    .find(j.VariableDeclarator, {
+      id: {type: 'Identifier'},
+      init: {callee: {name: 'require'}},
+    })
+    .find(j.Literal)
+    .filter(matchesPath);
+
+  const imports = root
+    .find(j.ImportDeclaration)
+    .find(j.Literal)
+    .filter(matchesPath);
+
+  [].concat(requires.paths(), imports.paths()).forEach(
+    renameLiteral(j, relativeNextFilePath)
   );
 
   return root.toSource(printOptions);

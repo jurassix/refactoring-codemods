@@ -1,5 +1,3 @@
-// @flow
-
 export {
   default as importSpecifierTransform,
 } from './import-specifier-transform';

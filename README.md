@@ -7,8 +7,10 @@ Quest for IDE refactoring support within JavaScript via js-codemods
 
 Rename the filePath of an import or requires. Used for file location refactoring: moving, renaming, etc.
 
+_Note: prevFilePath and nextFilePath are absolute_
+
 ```js
-> jscodeshift -t import-declaration-transform fileA fileB --prevFilePath=./bar --nextFilePath=./new/path/to/bar
+> jscodeshift -t import-declaration-transform fileA fileB --prevFilePath=/Users/jurassic/example/bar --nextFilePath=/Users/jurassic/example/new/path/to/bar
 ```
 
 Example:
@@ -27,8 +29,10 @@ import foo from './new/path/to/bar';
 
 Rename the imported variable. Used for file exports refactoring.
 
+_Note: declarationFilePath is absolute_
+
 ```js
-> jscodeshift -t import-specifier-transform fileA fileB --prevExportName=foo --nextExportName=fooPrime --filePath=./bar
+> jscodeshift -t import-specifier-transform fileA fileB --prevSpecifier=foo --nextSpecifier=fooPrime --declarationFilePath=/Users/jurassic/example/bar
 ```
 
 Example:
@@ -52,11 +56,6 @@ fooPrime();
 ### Build
 ```js
 > npm run build
-```
-
-### Flow
-```js
-> npm run flow
 ```
 
 ### Run tests

@@ -1,6 +1,4 @@
-// @flow
-
 export {
   importSpecifierTransform,
   importDeclarationTransform,
-} from './transformers';
+} from './transformer';

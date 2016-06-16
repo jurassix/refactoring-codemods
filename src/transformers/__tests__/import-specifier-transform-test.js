@@ -1,9 +1,12 @@
+import path from 'path';
 import {defineTest} from 'jscodeshift/dist/testUtils';
 
+const basedir = path.resolve(__dirname, `..${path.sep}__testfixtures__`)
+
 const options = {
-  prevExportName: 'foo',
-  nextExportName: 'fooPrime',
-  filePath: './bar',
+  prevSpecifier: 'foo',
+  nextSpecifier: 'fooPrime',
+  declarationFilePath: `${basedir}${path.sep}bar`,
   printOptions: {
     trailingComma: true,
     quote: 'single',
@@ -12,4 +15,3 @@ const options = {
 };
 
 defineTest(__dirname, 'import-specifier-transform', options);
-defineTest(__dirname, 'import-specifier-transform', options, 'noop-unmatched-imports');
