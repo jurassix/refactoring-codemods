@@ -10,7 +10,7 @@ Rename the filePath of an import or requires. Used for file location refactoring
 _Note: prevFilePath and nextFilePath are absolute_
 
 ```js
-> jscodeshift -t import-declaration-transform fileA fileB --prevFilePath=/Users/jurassic/example/bar --nextFilePath=/Users/jurassic/example/new/path/to/bar
+> jscodeshift -t import-declaration-transform fileA fileB --prevFilePath=/Users/jurassix/example/bar --nextFilePath=/Users/jurassix/example/new/path/to/bar
 ```
 
 Example:
@@ -32,7 +32,7 @@ Rename the imported variable. Used for file exports refactoring.
 _Note: declarationFilePath is absolute_
 
 ```js
-> jscodeshift -t import-specifier-transform fileA fileB --prevSpecifier=foo --nextSpecifier=fooPrime --declarationFilePath=/Users/jurassic/example/bar
+> jscodeshift -t import-specifier-transform fileA fileB --prevSpecifier=foo --nextSpecifier=fooPrime --declarationFilePath=/Users/jurassix/example/bar
 ```
 
 Example:
