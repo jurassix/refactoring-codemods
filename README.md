@@ -1,4 +1,4 @@
-# divvy
+# refactoring-codemods
 Quest for IDE refactoring support within JavaScript via js-codemods
 
 ## Transforms
