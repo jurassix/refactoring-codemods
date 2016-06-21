@@ -8,6 +8,8 @@ Codemods to the rescue :rocket: With the power of an AST we can determine which 
 
 Two transforms are provided as low-level AST transforms for achieve either a file rename/move or a file export rename.
 
+_The API of this library is designed to be integrated with an IDE that leverages these transforms to update user code transparently._
+
 ## Transforms
 
 ### import-declaration-transform
