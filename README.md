@@ -16,8 +16,6 @@ Fix all dependent import/require paths when a file has been renamed/moved.
 
 Call this transform on your source/test files and all dependents import/require paths will be updated to match the new file name/location.
 
-Rename the filePath of an import or requires. Used for file location refactoring: moving, renaming, etc.
-
 _Note: prevFilePath and nextFilePath are absolute_
 
 ```js
@@ -41,8 +39,6 @@ import foo from './new/path/to/bar';
 Fix all dependent import/require variables when a file export been renamed.
 
 Call this transform on your source/test files and all dependents import/require variables will be updated to match the new file export name.
-
-Rename the imported variable. Used for file exports refactoring.
 
 _Note: declarationFilePath is absolute_
 
