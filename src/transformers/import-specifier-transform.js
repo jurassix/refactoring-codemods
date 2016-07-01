@@ -1,4 +1,4 @@
-import {relative, resolve, normalize, sep} from 'path';
+import {resolve, normalize, sep} from 'path';
 
 const renameIdentifier = (j, newName) => (path) => {
   j(path).replaceWith(() => j.identifier(newName));
@@ -14,7 +14,7 @@ export default function importSpecifierTransform(file, api, options) {
   const {prevSpecifier, nextSpecifier, declarationFilePath, printOptions = {}} = options;
 
   const root = j(source);
-  const basedir = normalize(resolve(filePath, '../'));
+  const basedir = normalize(resolve(filePath, `..${sep}`));
   const matchesPath = filterMatchingPaths(basedir, normalize(declarationFilePath));
 
   const requires = root

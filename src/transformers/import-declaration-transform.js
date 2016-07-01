@@ -21,7 +21,7 @@ export default function importDeclarationTransform(file, api, options) {
   const {prevFilePath, nextFilePath, printOptions = {}} = options;
 
   const root = j(source);
-  const basedir = normalize(resolve(filePath, '../'));
+  const basedir = normalize(resolve(filePath, `..${sep}`));
   const matchesPath = filterMatchingPaths(basedir, normalize(prevFilePath));
   const relativeNextFilePath = ensureDotSlash(relative(basedir, nextFilePath));
 
@@ -41,10 +41,10 @@ export default function importDeclarationTransform(file, api, options) {
     .filter(matchesPath);
 
   const nodesToUpdate = [].concat(requires.paths(), imports.paths());
-  
+
   const noop = nodesToUpdate.length <= 0;
   if (noop) return null;
-  
+
   nodesToUpdate.forEach(
     renameLiteral(j, relativeNextFilePath)
   );
