@@ -4,17 +4,25 @@ Quest for IDE refactoring support within JavaScript via js-codemods.
 
 Refactoring a large JavaScript codebase is no fun. Moving files around, renaming files or renaming exported functions simply breaks all dependents import/require paths, and is a huge pain to correct. Simple search and replace is NOT a good solution.
 
-Codemods to the rescue :rocket: With the power of an AST we can determine which files in our project have previously depended on either the rename/moved file or renamed export, and automatically update the dependent code. 
+Codemods to the rescue :rocket: With the power of an AST we can determine which files in our project have previously depended on either the rename/moved file or renamed export, and automatically update the dependent code.
 
 Two transforms are provided as low-level AST transforms for achieve either a file rename/move or a file export rename.
 
 _The API of this library is designed to be integrated with an IDE that leverages these transforms to update user code transparently._
 
+### Install
+
+Install **codemod** via npm:
+
+```javascript
+> npm i --save refactoring-codemods
+```
+
 ## Transforms
 
 ### import-declaration-transform
 
-Fix all dependent import/require paths when a file has been renamed/moved. 
+Fix all dependent import/require paths when a file has been renamed/moved.
 
 Call this transform on your source/test files and all dependents import/require paths will be updated to match the new file name/location.
 
