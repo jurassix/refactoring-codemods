@@ -1,12 +1,12 @@
-import path from 'path';
+import {resolve, sep} from 'path';
 import {defineTest} from 'jscodeshift/dist/testUtils';
 
-const basedir = path.resolve(__dirname, `..${path.sep}__testfixtures__`)
+const basedir = resolve(__dirname, `..${sep}__testfixtures__`);
 
 const options = {
   prevSpecifier: 'foo',
   nextSpecifier: 'fooPrime',
-  declarationFilePath: `${basedir}${path.sep}bar.js`,
+  declarationFilePath: `${basedir}${sep}bar.js`,
   printOptions: {
     trailingComma: true,
     quote: 'single',

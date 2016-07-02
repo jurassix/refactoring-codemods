@@ -1,27 +1,18 @@
-import {extname, normalize, resolve, sep} from 'path';
+import {resolve, sep} from 'path';
+import {filterMatchingPaths} from './fileHelpers';
 
 const renameIdentifier = (j, newName) => (path) => {
   j(path).replaceWith(() => j.identifier(newName));
 };
 
-const removeExtention = (filePath) => {
-  const ext = extname(filePath);
-  if (ext.length === 0) return filePath;
-  return filePath.slice(0, (-1 * ext.length));
-};
-
-const filterMatchingPaths = (basedir, filePath) => (path) => {
-  const testPath = removeExtention(normalize(resolve(basedir, path.value.value)));
-  return testPath === removeExtention(filePath);
-};
 export default function importSpecifierTransform(file, api, options) {
   const {path: filePath, source} = file;
   const {jscodeshift: j} = api;
   const {prevSpecifier, nextSpecifier, declarationFilePath, printOptions = {}} = options;
 
   const root = j(source);
-  const basedir = normalize(resolve(filePath, `..${sep}`));
-  const matchesPath = filterMatchingPaths(basedir, normalize(declarationFilePath));
+  const basedir = resolve(filePath, `..${sep}`);
+  const matchesPath = filterMatchingPaths(basedir, declarationFilePath);
 
   const requires = root
     .find(j.VariableDeclarator, {
