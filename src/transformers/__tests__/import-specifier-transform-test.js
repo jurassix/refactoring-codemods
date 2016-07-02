@@ -15,3 +15,4 @@ const options = {
 };
 
 defineTest(__dirname, 'import-specifier-transform', options);
+defineTest(__dirname, 'import-specifier-transform', options, 'import-specifier-transform-alias');
