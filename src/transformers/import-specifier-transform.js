@@ -1,13 +1,19 @@
-import {resolve, normalize, sep} from 'path';
+import {extname, normalize, resolve, sep} from 'path';
 
 const renameIdentifier = (j, newName) => (path) => {
   j(path).replaceWith(() => j.identifier(newName));
 };
 
-const filterMatchingPaths = (basedir, filePath) => (path) => {
-  return normalize(resolve(basedir, path.value.value)) === filePath;
+const removeExtention = (filePath) => {
+  const ext = extname(filePath);
+  if (ext.length === 0) return filePath;
+  return filePath.slice(0, (-1 * ext.length));
 };
 
+const filterMatchingPaths = (basedir, filePath) => (path) => {
+  const testPath = removeExtention(normalize(resolve(basedir, path.value.value)));
+  return testPath === removeExtention(filePath);
+};
 export default function importSpecifierTransform(file, api, options) {
   const {path: filePath, source} = file;
   const {jscodeshift: j} = api;

@@ -4,8 +4,8 @@ import {defineTest} from 'jscodeshift/dist/testUtils';
 const basedir = path.resolve(__dirname, `..${path.sep}__testfixtures__`)
 
 const options = {
-  prevFilePath: `${basedir}/bar`,
-  nextFilePath: `${basedir}/new/path/to/bar`,
+  prevFilePath: `${basedir}/bar.js`,
+  nextFilePath: `${basedir}/new/path/to/bar.js`,
   printOptions: {
     trailingComma: true,
     quote: 'single',

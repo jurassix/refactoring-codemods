@@ -1,11 +1,18 @@
-import {relative, resolve, normalize, sep} from 'path';
+import {extname, normalize, relative, resolve, sep} from 'path';
 
 const renameLiteral = (j, newName) => (path) => {
   j(path).replaceWith(() => j.literal(newName));
 };
 
+const removeExtention = (filePath) => {
+  const ext = extname(filePath);
+  if (ext.length === 0) return filePath;
+  return filePath.slice(0, (-1 * ext.length));
+};
+
 const filterMatchingPaths = (basedir, filePath) => (path) => {
-  return normalize(resolve(basedir, path.value.value)) === filePath;
+  const testPath = removeExtention(normalize(resolve(basedir, path.value.value)));
+  return testPath === removeExtention(filePath);
 };
 
 const ensureDotSlash = (filePath = '') => {
@@ -23,7 +30,7 @@ export default function importDeclarationTransform(file, api, options) {
   const root = j(source);
   const basedir = normalize(resolve(filePath, `..${sep}`));
   const matchesPath = filterMatchingPaths(basedir, normalize(prevFilePath));
-  const relativeNextFilePath = ensureDotSlash(relative(basedir, nextFilePath));
+  const relativeNextFilePath = ensureDotSlash(removeExtention(relative(basedir, nextFilePath)));
 
   if (relativeNextFilePath === '') return null;
 

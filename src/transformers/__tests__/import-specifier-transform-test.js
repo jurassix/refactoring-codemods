@@ -6,7 +6,7 @@ const basedir = path.resolve(__dirname, `..${path.sep}__testfixtures__`)
 const options = {
   prevSpecifier: 'foo',
   nextSpecifier: 'fooPrime',
-  declarationFilePath: `${basedir}${path.sep}bar`,
+  declarationFilePath: `${basedir}${path.sep}bar.js`,
   printOptions: {
     trailingComma: true,
     quote: 'single',
