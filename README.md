@@ -1,6 +1,6 @@
 # refactoring-codemods
 
-Quest for IDE refactoring support within JavaScript via js-codemods.
+Quest for IDE refactoring support within JavaScript via jscodeshift codemods.
 
 Refactoring a large JavaScript codebase is no fun. Moving files around, renaming files or renaming exported functions simply breaks all dependents import/require paths, and is a huge pain to correct. Simple search and replace is NOT a good solution.
 
@@ -12,7 +12,7 @@ _The API of this library is designed to be integrated with an IDE that leverages
 
 ### Install
 
-Install **codemod** via npm:
+Install **codemods** via npm:
 
 ```javascript
 > npm i --save refactoring-codemods
@@ -29,7 +29,7 @@ Call this transform on your source/test files and all dependents import/require 
 _Note: prevFilePath and nextFilePath are absolute_
 
 ```js
-> jscodeshift -t import-declaration-transform fileA fileB --prevFilePath=/Users/jurassix/example/bar --nextFilePath=/Users/jurassix/example/new/path/to/bar
+> jscodeshift -t import-declaration-transform fileA fileB --prevFilePath=/Users/jurassix/example/bar.js --nextFilePath=/Users/jurassix/example/new/path/to/bar.js
 ```
 
 Example:
@@ -53,7 +53,7 @@ Call this transform on your source/test files and all dependents import/require 
 _Note: declarationFilePath is absolute_
 
 ```js
-> jscodeshift -t import-specifier-transform fileA fileB --prevSpecifier=foo --nextSpecifier=fooPrime --declarationFilePath=/Users/jurassix/example/bar
+> jscodeshift -t import-specifier-transform fileA fileB --prevSpecifier=foo --nextSpecifier=fooPrime --declarationFilePath=/Users/jurassix/example/bar.js
 ```
 
 Example:
