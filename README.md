@@ -44,6 +44,30 @@ import foo from './bar';
 import foo from './new/path/to/bar';
  ```
 
+### import-relative-transform
+
+Fix all relative import/require paths when a file has been renamed/moved.
+
+Call this transform on the single file that is being moved to a new location and all relative import/require paths will be updated to match the new file name/location.
+
+_Note: prevFilePath and nextFilePath are absolute_
+
+```js
+> jscodeshift -t import-relative-transform bar.js --prevFilePath=/Users/jurassix/example/old/path/to/bar.js --nextFilePath=/Users/jurassix/example/new/path/to/bar.js
+```
+
+Example:
+
+```js
+import foo from '../../foo';
+```
+
+ becomes
+
+ ```js
+import foo from '../../../../old/path/foo';
+ ```
+
 ### import-specifier-transform
 
 Fix all dependent import/require variables when a file export been renamed.
