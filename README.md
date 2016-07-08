@@ -6,7 +6,7 @@ Refactoring a large JavaScript codebase is no fun. Moving files around, renaming
 
 Codemods to the rescue :rocket: With the power of an AST we can determine which files in our project have previously depended on either the rename/moved file or renamed export, and automatically update the dependent code.
 
-Two transforms are provided as low-level AST transforms for achieve either a file rename/move or a file export rename.
+Three transforms are provided as low-level AST transforms for achieve either a file rename/move or a file export rename.
 
 _The API of this library is designed to be integrated with an IDE that leverages these transforms to update user code transparently._
 

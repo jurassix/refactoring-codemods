@@ -1,20 +1,20 @@
-import {relative, resolve} from 'path';
+import {dirname, relative, resolve} from 'path';
 import {isRelativePath} from './fileHelpers';
 
-const renameLiteral = (j, prevFilePath, nextFilePath) => (path) => {
-  const absolutePath = resolve(prevFilePath, path.value.value);
-  const nextRelativePath = relative(nextFilePath, absolutePath);
-  console.log('ABS:: ', absolutePath);
-  console.log('NEXT:: ', nextRelativePath);
+const renameLiteral = (j, preFileDir, nextFileDir) => (path) => {
+  const absolutePath = resolve(preFileDir, path.value.value);
+  const nextRelativePath = relative(nextFileDir, absolutePath);
   j(path).replaceWith(() => j.literal(nextRelativePath));
 };
 
 export default function importRelativeTransform(file, api, options) {
-  const {path: filePath, source} = file;
+  const {source} = file;
   const {jscodeshift: j} = api;
   const {prevFilePath, nextFilePath, printOptions = {}} = options;
 
   const root = j(source);
+  const prevFileDir = dirname(prevFilePath);
+  const nextFileDir = dirname(nextFilePath);
   const filterNonRelativePaths = (path) => isRelativePath(path.value.value);
 
   const requires = root
@@ -36,7 +36,7 @@ export default function importRelativeTransform(file, api, options) {
   if (noop) return null;
 
   nodesToUpdate.forEach(
-    renameLiteral(j, prevFilePath, nextFilePath)
+    renameLiteral(j, prevFileDir, nextFileDir)
   );
 
   return root.toSource(printOptions);

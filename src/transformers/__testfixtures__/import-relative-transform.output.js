@@ -1,3 +1,3 @@
-import foo from '../../../../old/path/foo';
+import foo from '../../../old/foo';
 
 foo();

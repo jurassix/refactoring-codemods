@@ -1,4 +1,4 @@
-import {resolve, sep} from 'path';
+import {dirname} from 'path';
 import {filterMatchingPaths} from './fileHelpers';
 
 const renameIdentifier = (j, newName) => (path) => {
@@ -11,7 +11,7 @@ export default function importSpecifierTransform(file, api, options) {
   const {prevSpecifier, nextSpecifier, declarationFilePath, printOptions = {}} = options;
 
   const root = j(source);
-  const basedir = resolve(filePath, `..${sep}`);
+  const basedir = dirname(filePath);
   const matchesPath = filterMatchingPaths(basedir, declarationFilePath);
 
   const requires = root

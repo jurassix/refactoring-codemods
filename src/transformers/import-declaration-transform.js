@@ -1,4 +1,4 @@
-import {relative, resolve, sep} from 'path';
+import {dirname, relative} from 'path';
 import {ensureDotSlash, filterMatchingPaths, removeExtension} from './fileHelpers';
 
 const renameLiteral = (j, newName) => (path) => {
@@ -11,7 +11,7 @@ export default function importDeclarationTransform(file, api, options) {
   const {prevFilePath, nextFilePath, printOptions = {}} = options;
 
   const root = j(source);
-  const basedir = resolve(filePath, `..${sep}`);
+  const basedir = dirname(filePath);
   const matchesPath = filterMatchingPaths(basedir, prevFilePath);
   const relativeNextFilePath = ensureDotSlash(removeExtension(relative(basedir, nextFilePath)));
 
