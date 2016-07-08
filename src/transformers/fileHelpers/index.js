@@ -7,3 +7,6 @@ export {
 export {
   default as removeExtension,
 } from './removeExtension';
+export {
+  default as isRelativePath,
+} from './isRelativePath';
