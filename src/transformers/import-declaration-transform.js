@@ -8,36 +8,37 @@ const renameLiteral = (j, newName) => (path) => {
 export default function importDeclarationTransform(file, api, options) {
   const {path: filePath, source} = file;
   const {jscodeshift: j} = api;
-  const {prevFilePath, nextFilePath, printOptions = {}} = options;
+  const {paths, printOptions = {}} = options;
 
   const root = j(source);
   const basedir = dirname(filePath);
-  const matchesPath = filterMatchingPaths(basedir, prevFilePath);
-  const relativeNextFilePath = ensureDotSlash(removeExtension(relative(basedir, nextFilePath)));
-
-  if (relativeNextFilePath === '') return null;
 
   const requires = root
     .find(j.VariableDeclarator, {
       id: {type: 'Identifier'},
       init: {callee: {name: 'require'}},
     })
-    .find(j.Literal)
-    .filter(matchesPath);
+    .find(j.Literal);
 
   const imports = root
     .find(j.ImportDeclaration)
-    .find(j.Literal)
-    .filter(matchesPath);
+    .find(j.Literal);
 
-  const nodesToUpdate = [].concat(requires.paths(), imports.paths());
+  const allPaths = [].concat(requires.paths(), imports.paths());
 
-  const noop = nodesToUpdate.length <= 0;
-  if (noop) return null;
+  paths.forEach(({prevFilePath, nextFilePath}) => {
+    const matchesPath = filterMatchingPaths(basedir, prevFilePath);
+    const relativeNextFilePath = ensureDotSlash(removeExtension(relative(basedir, nextFilePath)));
 
-  nodesToUpdate.forEach(
-    renameLiteral(j, relativeNextFilePath)
-  );
+    const nodesToUpdate = j(allPaths).filter(matchesPath);
+
+    const noop = nodesToUpdate.length <= 0;
+    if (noop) return;
+
+    nodesToUpdate.forEach(
+      renameLiteral(j, relativeNextFilePath)
+    );
+  });
 
   return root.toSource(printOptions);
 }
