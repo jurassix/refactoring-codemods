@@ -8,7 +8,9 @@ const renameLiteral = (j, newName) => (path) => {
 export default function importDeclarationTransform(file, api, options) {
   const {path: filePath, source} = file;
   const {jscodeshift: j} = api;
-  const {paths, printOptions = {}} = options;
+  let {paths, printOptions = {}} = options;
+
+  if (!Array.isArray(paths)) paths = [{ ...options }];
 
   const root = j(source);
   const basedir = dirname(filePath);
