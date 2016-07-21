@@ -1,5 +1,5 @@
-import foo from '../../../old/foo';
-import goo from './goo';
+import foo from './old/path/to/foo';
+import goo from './old/goo';
 
 foo();
 goo();

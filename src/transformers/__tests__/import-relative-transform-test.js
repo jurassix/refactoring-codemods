@@ -1,11 +1,13 @@
-import {resolve, sep} from 'path';
+import {resolve} from 'path';
 import {defineTest} from 'jscodeshift/dist/testUtils';
 
-const basedir = resolve(__dirname, `..${sep}__testfixtures__`);
+const basedir = resolve(__dirname, `../__testfixtures__`);
 
 const options = {
-  prevFilePath: `${basedir}/old/path/to/bar.js`,
-  nextFilePath: `${basedir}/new/path/to/bar.js`,
+  paths: [{
+    nextFilePath: `${basedir}/import-relative-transform.input.js`,
+    prevFilePath: `${basedir}/old/path/to/import-relative-transform.input.js`,
+  }],
   printOptions: {
     trailingComma: true,
     quote: 'single',

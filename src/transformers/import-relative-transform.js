@@ -8,13 +8,22 @@ const renameLiteral = (j, preFileDir, nextFileDir) => (path) => {
 };
 
 export default function importRelativeTransform(file, api, options) {
-  const {source} = file;
+  const {path: filePath, source} = file;
   const {jscodeshift: j} = api;
-  const {prevFilePath, nextFilePath, printOptions = {}} = options;
+  let {paths, printOptions = {}} = options;
+
+  let prevFilePath;
+  if (!Array.isArray(paths)) {
+    prevFilePath = options.prevFilePath;
+  } else {
+    const found = paths.find(({nextFilePath}) => filePath === nextFilePath);
+    if (found) prevFilePath = found.prevFilePath;
+  }
+
+  // noop
+  if (prevFilePath == null) return null;
 
   const root = j(source);
-  const prevFileDir = dirname(prevFilePath);
-  const nextFileDir = dirname(nextFilePath);
   const filterNonRelativePaths = (path) => isRelativePath(path.value.value);
 
   const requires = root
@@ -35,6 +44,8 @@ export default function importRelativeTransform(file, api, options) {
   const noop = nodesToUpdate.length <= 0;
   if (noop) return null;
 
+  const prevFileDir = dirname(prevFilePath);
+  const nextFileDir = dirname(filePath);
   nodesToUpdate.forEach(
     renameLiteral(j, prevFileDir, nextFileDir)
   );
