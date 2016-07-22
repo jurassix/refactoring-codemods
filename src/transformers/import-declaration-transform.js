@@ -15,18 +15,31 @@ export default function importDeclarationTransform(file, api, options) {
   const root = j(source);
   const basedir = dirname(filePath);
 
-  const requires = root
+  const requireDeclarations = root
     .find(j.VariableDeclarator, {
       id: {type: 'Identifier'},
       init: {callee: {name: 'require'}},
     })
     .find(j.Literal);
 
-  const imports = root
+  const importDeclarations = root
     .find(j.ImportDeclaration)
     .find(j.Literal);
 
-  const allPaths = [].concat(requires.paths(), imports.paths());
+  const exportDeclarations = root
+    .find(j.ExportNamedDeclaration)
+    .find(j.Literal);
+
+  const exportAllDeclarations = root
+    .find(j.ExportAllDeclaration)
+    .find(j.Literal);
+
+  const allPaths = [].concat(
+    requireDeclarations.paths(),
+    importDeclarations.paths(),
+    exportDeclarations.paths(),
+    exportAllDeclarations.paths()
+  );
 
   paths.forEach(({prevFilePath, nextFilePath}) => {
     const matchesPath = filterMatchingPaths(basedir, prevFilePath);

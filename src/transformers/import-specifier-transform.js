@@ -14,7 +14,7 @@ export default function importSpecifierTransform(file, api, options) {
   const basedir = dirname(filePath);
   const matchesPath = filterMatchingPaths(basedir, declarationFilePath);
 
-  const requires = root
+  const requireDeclarations = root
     .find(j.VariableDeclarator, {
       id: {type: 'Identifier'},
       init: {callee: {name: 'require'}},
@@ -22,12 +22,21 @@ export default function importSpecifierTransform(file, api, options) {
     .find(j.Literal)
     .filter(matchesPath);
 
-  const imports = root
+  const importDeclarations = root
     .find(j.ImportDeclaration)
     .find(j.Literal)
     .filter(matchesPath);
 
-  const noop = [].concat(requires.paths(), imports.paths()).length <= 0;
+  const exportDeclarations = root
+    .find(j.ExportNamedDeclaration)
+    .find(j.Literal)
+    .filter(matchesPath);
+
+  const noop = [].concat(
+    requireDeclarations.paths(),
+    importDeclarations.paths(),
+    exportDeclarations.paths()
+  ).length <= 0;
   if (noop) return null;
 
   const importSpecifiers = root
@@ -40,12 +49,24 @@ export default function importSpecifierTransform(file, api, options) {
     .find(j.ImportDefaultSpecifier)
     .find(j.Identifier, {name: prevSpecifier});
 
+  const exportSpecifiers = root
+    .find(j.ExportDeclaration)
+    .find(j.ExportSpecifier)
+    .find(j.Identifier, {name: prevSpecifier});
+
+  const exportDefaultSpecifiers = root
+    .find(j.ExportDeclaration)
+    .find(j.ExportDefaultSpecifier)
+    .find(j.Identifier, {name: prevSpecifier});
+
   const identifiers = root
     .find(j.Identifier, {name: prevSpecifier});
 
   [].concat(
     importSpecifiers.paths(),
     importDefaultSpecifiers.paths(),
+    exportSpecifiers.paths(),
+    exportDefaultSpecifiers.paths(),
     identifiers.paths(),
   ).forEach(
     renameIdentifier(j, nextSpecifier)

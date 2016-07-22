@@ -26,7 +26,7 @@ export default function importRelativeTransform(file, api, options) {
   const root = j(source);
   const filterNonRelativePaths = (path) => isRelativePath(path.value.value);
 
-  const requires = root
+  const requireDeclarations = root
     .find(j.VariableDeclarator, {
       id: {type: 'Identifier'},
       init: {callee: {name: 'require'}},
@@ -34,12 +34,27 @@ export default function importRelativeTransform(file, api, options) {
     .find(j.Literal)
     .filter(filterNonRelativePaths);
 
-  const imports = root
+  const importDeclarations = root
     .find(j.ImportDeclaration)
     .find(j.Literal)
     .filter(filterNonRelativePaths);
 
-  const nodesToUpdate = [].concat(requires.paths(), imports.paths());
+  const exportDeclarations = root
+    .find(j.ExportNamedDeclaration)
+    .find(j.Literal)
+    .filter(filterNonRelativePaths);
+
+  const exportAllDeclarations = root
+    .find(j.ExportAllDeclaration)
+    .find(j.Literal)
+    .filter(filterNonRelativePaths);
+
+  const nodesToUpdate = [].concat(
+    requireDeclarations.paths(),
+    importDeclarations.paths(),
+    exportDeclarations.paths(),
+    exportAllDeclarations.paths()
+  );
 
   const noop = nodesToUpdate.length <= 0;
   if (noop) return null;
