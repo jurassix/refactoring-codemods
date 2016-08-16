@@ -4,7 +4,12 @@ import removeExtension from './removeExtension';
 export default function filterMatchingPaths(basedir, filePath) {
   const normalizedFilePath = removeExtension(filePath);
   return (path) => {
-    const testPath = removeExtension(resolve(basedir, path.value.value));
+    const value = path.value.value;
+    if (typeof value !== 'string') {
+      return false;
+    }
+
+    const testPath = removeExtension(resolve(basedir, value));
     return testPath === normalizedFilePath;
   };
 }
