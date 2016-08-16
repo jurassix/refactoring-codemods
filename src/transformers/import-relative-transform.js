@@ -41,6 +41,7 @@ export default function importRelativeTransform(file, api, options) {
 
   const exportDeclarations = root
     .find(j.ExportNamedDeclaration)
+    .filter((path) => path.value.source !== null)
     .find(j.Literal)
     .filter(filterNonRelativePaths);
 

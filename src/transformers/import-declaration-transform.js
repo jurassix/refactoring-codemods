@@ -28,6 +28,7 @@ export default function importDeclarationTransform(file, api, options) {
 
   const exportDeclarations = root
     .find(j.ExportNamedDeclaration)
+    .filter((path) => path.value.source !== null)
     .find(j.Literal);
 
   const exportAllDeclarations = root
