@@ -16,6 +16,14 @@ const options = {
     {
       prevFilePath: `${basedir}/goo.js`,
       nextFilePath: `${basedir}/new/path/to/goo.js`,
+    },
+    {
+      prevFilePath: `${basedir}/../old/baz.js`,
+      nextFilePath: `${basedir}/../new/baz.js`,
+    },
+    {
+      prevFilePath: `${basedir}/old/baz.qux.js`,
+      nextFilePath: `${basedir}/new/baz.qux.js`,
     }
   ],
   printOptions: {
