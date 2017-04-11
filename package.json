@@ -3,7 +3,7 @@
   "scripts": {
     "build": "babel src -d lib",
     "test": "jest",
-    "format": "prettier --trailing-comma es5 --single-quote --parser babel --write 'src/**/*.js'",
+    "format": "prettier --trailing-comma es5 --single-quote --parser babylon --write 'src/**/*.js'",
     "precommit": "lint-staged"
   },
   "description": "Quest for IDE refactoring support within JavaScript via js-codemods",
@@ -44,7 +44,7 @@
   "lint-staged": {
     "*.js": [
       "lint",
-      "prettier --trailing-comma es5 --single-quote --parser babel --write",
+      "prettier --trailing-comma es5 --single-quote --parser babylon --write",
       "git add"
     ]
   }
