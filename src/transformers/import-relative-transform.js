@@ -1,22 +1,25 @@
-import {dirname, relative, resolve} from 'path';
-import {ensureDotSlash, isRelativePath} from './fileHelpers';
+import { dirname, relative, resolve } from 'path';
+import { ensureDotSlash, isRelativePath } from './fileHelpers';
 
-const renameLiteral = (j, preFileDir, nextFileDir) => (path) => {
-  const absolutePath = resolve(preFileDir, path.value.value);
-  const nextRelativePath = ensureDotSlash(relative(nextFileDir, absolutePath));
-  j(path).replaceWith(() => j.literal(nextRelativePath));
-};
+const renameLiteral = (j, preFileDir, nextFileDir) =>
+  path => {
+    const absolutePath = resolve(preFileDir, path.value.value);
+    const nextRelativePath = ensureDotSlash(
+      relative(nextFileDir, absolutePath)
+    );
+    j(path).replaceWith(() => j.literal(nextRelativePath));
+  };
 
 export default function importRelativeTransform(file, api, options) {
-  const {path: filePath, source} = file;
-  const {jscodeshift: j} = api;
-  let {paths, printOptions = {}} = options;
+  const { path: filePath, source } = file;
+  const { jscodeshift: j } = api;
+  let { paths, printOptions = {} } = options;
 
   let prevFilePath;
   if (!Array.isArray(paths)) {
     prevFilePath = options.prevFilePath;
   } else {
-    const found = paths.find(({nextFilePath}) => filePath === nextFilePath);
+    const found = paths.find(({ nextFilePath }) => filePath === nextFilePath);
     if (found) prevFilePath = found.prevFilePath;
   }
 
@@ -24,12 +27,12 @@ export default function importRelativeTransform(file, api, options) {
   if (prevFilePath == null) return null;
 
   const root = j(source);
-  const filterNonRelativePaths = (path) => isRelativePath(path.value.value);
+  const filterNonRelativePaths = path => isRelativePath(path.value.value);
 
   const requireDeclarations = root
     .find(j.VariableDeclarator, {
-      id: {type: 'Identifier'},
-      init: {callee: {name: 'require'}},
+      id: { type: 'Identifier' },
+      init: { callee: { name: 'require' } },
     })
     .find(j.Literal)
     .filter(filterNonRelativePaths);
@@ -41,7 +44,7 @@ export default function importRelativeTransform(file, api, options) {
 
   const exportDeclarations = root
     .find(j.ExportNamedDeclaration)
-    .filter((path) => path.value.source !== null)
+    .filter(path => path.value.source !== null)
     .find(j.Literal)
     .filter(filterNonRelativePaths);
 
@@ -62,9 +65,7 @@ export default function importRelativeTransform(file, api, options) {
 
   const prevFileDir = dirname(prevFilePath);
   const nextFileDir = dirname(filePath);
-  nodesToUpdate.forEach(
-    renameLiteral(j, prevFileDir, nextFileDir)
-  );
+  nodesToUpdate.forEach(renameLiteral(j, prevFileDir, nextFileDir));
 
   return root.toSource(printOptions);
 }

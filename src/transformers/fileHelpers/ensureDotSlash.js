@@ -1,4 +1,4 @@
-import {sep} from 'path';
+import { sep } from 'path';
 import isRelativePath from './isRelativePath';
 
 export default function ensureDotSlash(filePath = '') {

@@ -1,5 +1,5 @@
-import {resolve, sep} from 'path';
-import {defineTest} from 'jscodeshift/dist/testUtils';
+import { resolve, sep } from 'path';
+import { defineTest } from 'jscodeshift/dist/testUtils';
 
 const basedir = resolve(__dirname, `..${sep}__testfixtures__`);
 
@@ -24,7 +24,7 @@ const options = {
     {
       prevFilePath: `${basedir}/old/baz.qux.js`,
       nextFilePath: `${basedir}/new/baz.qux.js`,
-    }
+    },
   ],
   printOptions: {
     trailingComma: true,

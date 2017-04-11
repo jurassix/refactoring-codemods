@@ -1,14 +1,19 @@
-import {dirname, relative} from 'path';
-import {ensureDotSlash, filterMatchingPaths, removeExtension} from './fileHelpers';
+import { dirname, relative } from 'path';
+import {
+  ensureDotSlash,
+  filterMatchingPaths,
+  removeExtension,
+} from './fileHelpers';
 
-const renameLiteral = (j, newName) => (path) => {
-  j(path).replaceWith(() => j.literal(newName));
-};
+const renameLiteral = (j, newName) =>
+  path => {
+    j(path).replaceWith(() => j.literal(newName));
+  };
 
 export default function importDeclarationTransform(file, api, options) {
-  const {path: filePath, source} = file;
-  const {jscodeshift: j} = api;
-  let {paths, printOptions = {}} = options;
+  const { path: filePath, source } = file;
+  const { jscodeshift: j } = api;
+  let { paths, printOptions = {} } = options;
 
   if (!Array.isArray(paths)) paths = [{ ...options }];
 
@@ -17,18 +22,16 @@ export default function importDeclarationTransform(file, api, options) {
 
   const requireDeclarations = root
     .find(j.VariableDeclarator, {
-      id: {type: 'Identifier'},
-      init: {callee: {name: 'require'}},
+      id: { type: 'Identifier' },
+      init: { callee: { name: 'require' } },
     })
     .find(j.Literal);
 
-  const importDeclarations = root
-    .find(j.ImportDeclaration)
-    .find(j.Literal);
+  const importDeclarations = root.find(j.ImportDeclaration).find(j.Literal);
 
   const exportDeclarations = root
     .find(j.ExportNamedDeclaration)
-    .filter((path) => path.value.source !== null)
+    .filter(path => path.value.source !== null)
     .find(j.Literal);
 
   const exportAllDeclarations = root
@@ -42,18 +45,18 @@ export default function importDeclarationTransform(file, api, options) {
     exportAllDeclarations.paths()
   );
 
-  paths.forEach(({prevFilePath, nextFilePath}) => {
+  paths.forEach(({ prevFilePath, nextFilePath }) => {
     const matchesPath = filterMatchingPaths(basedir, prevFilePath);
-    const relativeNextFilePath = ensureDotSlash(removeExtension(relative(basedir, nextFilePath)));
+    const relativeNextFilePath = ensureDotSlash(
+      removeExtension(relative(basedir, nextFilePath))
+    );
 
     const nodesToUpdate = j(allPaths).filter(matchesPath);
 
     const noop = nodesToUpdate.length <= 0;
     if (noop) return;
 
-    nodesToUpdate.forEach(
-      renameLiteral(j, relativeNextFilePath)
-    );
+    nodesToUpdate.forEach(renameLiteral(j, relativeNextFilePath));
   });
 
   return root.toSource(printOptions);
