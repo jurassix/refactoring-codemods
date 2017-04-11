@@ -7,5 +7,9 @@ export { default as goo } from '../../goo';
 export const num = 1;
 export const filePath = './foo';
 
+var requiredFoo = require('./foo');
+require('./foo');
+require('./foo')();
+
 foo();
 goo();

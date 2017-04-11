@@ -11,5 +11,9 @@ export * from './new/baz.qux';
 export const num = 1;
 export const filePath = './bar';
 
+var requiredFoo = require('./new/path/to/foo');
+require('./new/path/to/foo');
+require('./new/path/to/foo')();
+
 bar();
 foo();

@@ -21,9 +21,8 @@ export default function importDeclarationTransform(file, api, options) {
   const basedir = dirname(filePath);
 
   const requireDeclarations = root
-    .find(j.VariableDeclarator, {
-      id: { type: 'Identifier' },
-      init: { callee: { name: 'require' } },
+    .find(j.CallExpression, {
+      callee: { type: 'Identifier', name: 'require' },
     })
     .find(j.Literal);
 
