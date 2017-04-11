@@ -30,9 +30,8 @@ export default function importRelativeTransform(file, api, options) {
   const filterNonRelativePaths = path => isRelativePath(path.value.value);
 
   const requireDeclarations = root
-    .find(j.VariableDeclarator, {
-      id: { type: 'Identifier' },
-      init: { callee: { name: 'require' } },
+    .find(j.CallExpression, {
+      callee: { type: 'Identifier', name: 'require' },
     })
     .find(j.Literal)
     .filter(filterNonRelativePaths);
