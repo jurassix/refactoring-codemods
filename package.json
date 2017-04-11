@@ -11,13 +11,13 @@
   "main": "./src/index.js",
   "devDependencies": {
     "babel-cli": "^6.9.0",
-    "babel-jest": "^12.1.0",
+    "babel-jest": "^19.0.0",
     "babel-plugin-transform-flow-strip-types": "^6.8.0",
     "babel-polyfill": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
-    "jest-cli": "^12.1.0",
+    "jest": "^19.0.2",
     "jscodeshift": "^0.3.20",
     "lint-staged": "^3.4.0",
     "prettier": "^0.22.0"
