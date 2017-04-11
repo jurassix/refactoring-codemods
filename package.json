@@ -2,7 +2,9 @@
   "name": "refactoring-codemods",
   "scripts": {
     "build": "babel src -d lib",
-    "test": "jest"
+    "test": "jest",
+    "format": "prettier --trailing-comma es5 --single-quote --parser babel --write 'src/**/*.js'",
+    "precommit": "lint-staged"
   },
   "description": "Quest for IDE refactoring support within JavaScript via js-codemods",
   "version": "0.3.2",
@@ -16,7 +18,9 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "jest-cli": "^12.1.0",
-    "jscodeshift": "^0.3.20"
+    "jscodeshift": "^0.3.20",
+    "lint-staged": "^3.4.0",
+    "prettier": "^0.22.0"
   },
   "repository": {
     "type": "git",
@@ -35,5 +39,13 @@
   "bugs": {
     "url": "https://github.com/jurassix/refactoring-codemods/issues"
   },
-  "homepage": "https://github.com/jurassix/refactoring-codemods#readme"
+  "homepage": "https://github.com/jurassix/refactoring-codemods#readme",
+  "dependencies": {},
+  "lint-staged": {
+    "*.js": [
+      "lint",
+      "prettier --trailing-comma es5 --single-quote --parser babel --write",
+      "git add"
+    ]
+  }
 }

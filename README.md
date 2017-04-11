@@ -15,7 +15,7 @@ _The API of this library is designed to be integrated with an IDE that leverages
 Install **codemods** via npm:
 
 ```javascript
-> npm i --save refactoring-codemods
+> yarn add refactoring-codemods
 ```
 
 ## Transforms
@@ -100,10 +100,10 @@ fooPrime();
 
 ### Build
 ```js
-> npm run build
+> yarn build
 ```
 
 ### Run tests
 ```js
-> npm test
+> yarn test
 ```
