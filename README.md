@@ -28,8 +28,12 @@ Call this transform on your source/test files and all dependents import/require 
 
 _Note: prevFilePath and nextFilePath are absolute_
 
-```js
-> jscodeshift -t import-declaration-transform fileA fileB --prevFilePath=/Users/jurassix/example/bar.js --nextFilePath=/Users/jurassix/example/new/path/to/bar.js
+```sh
+> jscodeshift \
+  -t import-declaration-transform \
+  fileA fileB \
+  --prevFilePath=/Users/jurassix/example/bar.js \
+  --nextFilePath=/Users/jurassix/example/new/path/to/bar.js
 ```
 
 Example:
@@ -52,8 +56,12 @@ Call this transform on the single file that is being moved to a new location and
 
 _Note: prevFilePath and nextFilePath are absolute_
 
-```js
-> jscodeshift -t import-relative-transform bar.js --prevFilePath=/Users/jurassix/example/old/path/to/bar.js --nextFilePath=/Users/jurassix/example/new/path/to/bar.js
+```sh
+> jscodeshift \
+  -t import-relative-transform \
+  bar.js \
+  --prevFilePath=/Users/jurassix/example/old/path/to/bar.js \
+  --nextFilePath=/Users/jurassix/example/new/path/to/bar.js
 ```
 
 Example:
@@ -77,7 +85,12 @@ Call this transform on your source/test files and all dependents import/require 
 _Note: declarationFilePath is absolute_
 
 ```js
-> jscodeshift -t import-specifier-transform fileA fileB --prevSpecifier=foo --nextSpecifier=fooPrime --declarationFilePath=/Users/jurassix/example/bar.js
+> jscodeshift \
+  -t import-specifier-transform \
+  fileA fileB \
+  --prevSpecifier=foo \
+  --nextSpecifier=fooPrime \
+  --declarationFilePath=/Users/jurassix/example/bar.js
 ```
 
 Example:
@@ -99,11 +112,11 @@ fooPrime();
 ## Contribute
 
 ### Build
-```js
+```sh
 > yarn build
 ```
 
 ### Run tests
-```js
+```sh
 > yarn test
 ```
