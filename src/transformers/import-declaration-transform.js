@@ -46,15 +46,19 @@ export default function importDeclarationTransform(file, api, options) {
 
   paths.forEach(({ prevFilePath, nextFilePath }) => {
     const matchesPath = filterMatchingPaths(basedir, prevFilePath);
-    const relativeNextFilePath = ensureDotSlash(
-      removeExtension(relative(basedir, nextFilePath))
-    );
-
     const nodesToUpdate = j(allPaths).filter(matchesPath);
 
     const noop = nodesToUpdate.length <= 0;
     if (noop) return;
-
+    let relativeNextFilePath = ensureDotSlash(
+      removeExtension(relative(basedir, nextFilePath))
+    );
+    const relativeNextFilePathNoIndex = relativeNextFilePath.replace(/\/index$/, '')
+    if (relativeNextFilePathNoIndex !== '.') {
+      if (prevFilePath.replace(/\/index\.js$/, '') !== prevFilePath) {
+        relativeNextFilePath = relativeNextFilePathNoIndex
+      }
+    }
     nodesToUpdate.forEach(renameLiteral(j, relativeNextFilePath));
   });
 

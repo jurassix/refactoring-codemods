@@ -6,6 +6,18 @@ const basedir = resolve(__dirname, `..${sep}__testfixtures__`);
 const options = {
   paths: [
     {
+      prevFilePath: `${basedir}/style.css`,
+      nextFilePath: `${basedir}/new/path/to/style.css`,
+    },
+    {
+      prevFilePath: `${basedir}/bang/index.js`,
+      nextFilePath: `${basedir}/new/path/to/bang/index.js`,
+    },
+    {
+      prevFilePath: `${basedir}/boom/index.js`,
+      nextFilePath: `${basedir}/index.js`,
+    },
+    {
       prevFilePath: `${basedir}/bar.js`,
       nextFilePath: `${basedir}/new/path/to/bar.js`,
     },

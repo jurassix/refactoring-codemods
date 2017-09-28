@@ -1,7 +1,10 @@
+import boom from './boom/';
+import bang from './bang';
 import bar from './bar';
 import foo from './foo';
 import baz from '../old/baz';
 import bazQux from './old/baz.qux';
+import './style.css';
 
 export * from './bar';
 export { default as bar } from './bar';
