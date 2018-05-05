@@ -1,11 +1,11 @@
 import { dirname, relative, resolve } from 'path';
-import { ensureDotSlash, isRelativePath } from './fileHelpers';
+import { ensureDotSlash, isRelativePath, formatPath } from './fileHelpers';
 
 const renameLiteral = (j, preFileDir, nextFileDir) =>
   path => {
     const absolutePath = resolve(preFileDir, path.value.value);
     const nextRelativePath = ensureDotSlash(
-      relative(nextFileDir, absolutePath)
+      formatPath(relative(nextFileDir, absolutePath))
     );
     j(path).replaceWith(() => j.literal(nextRelativePath));
   };

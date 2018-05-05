@@ -1,7 +1,8 @@
-import { dirname, relative } from 'path';
+import { dirname, relative, sep } from 'path';
 import {
   ensureDotSlash,
   filterMatchingPaths,
+  formatPath,
   removeExtension,
 } from './fileHelpers';
 
@@ -44,21 +45,24 @@ export default function importDeclarationTransform(file, api, options) {
     exportAllDeclarations.paths()
   );
 
+  const indexRegex = new RegExp('\\' + sep + 'index$');
+  const indexJsRegex = new RegExp('\\' + sep + 'index.js$');
+
   paths.forEach(({ prevFilePath, nextFilePath }) => {
     const matchesPath = filterMatchingPaths(basedir, prevFilePath);
     const nodesToUpdate = j(allPaths).filter(matchesPath);
 
     const noop = nodesToUpdate.length <= 0;
     if (noop) return;
-    let relativeNextFilePath = ensureDotSlash(
+    let relativeNextFilePath = formatPath(ensureDotSlash(
       removeExtension(relative(basedir, nextFilePath))
-    );
-    const relativeNextFilePathNoIndex = relativeNextFilePath.replace(/\/index$/, '')
+    ));
+    const relativeNextFilePathNoIndex = relativeNextFilePath.replace(indexRegex, '')
     if (relativeNextFilePathNoIndex !== '.') {
-      if (prevFilePath.replace(/\/index\.js$/, '') !== prevFilePath) {
+      if (prevFilePath.replace(indexJsRegex, '') !== prevFilePath) {
         relativeNextFilePath = relativeNextFilePathNoIndex
       }
-    }
+    }        
     nodesToUpdate.forEach(renameLiteral(j, relativeNextFilePath));
   });
 
