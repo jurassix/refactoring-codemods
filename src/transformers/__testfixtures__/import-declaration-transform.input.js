@@ -1,4 +1,4 @@
-import boom from './boom/';
+import boom from './boom';
 import bang from './bang';
 import bar from './bar';
 import foo from './foo';
